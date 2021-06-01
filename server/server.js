@@ -15,7 +15,6 @@ app.use(cors());
 const options = {
 	customCss: ".swagger-ui .topbar { display: none }",
 	customSiteTitle: "VUTTR",
-	customfavIcon: "../assets/node.png",
 	explorer:true
 };
 
