@@ -23,5 +23,5 @@ app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile,options));
 app.use(routes);
 
 app.listen(keys.apiPort,()=>{
-	console.log("Server ir running...");
+	console.log("Server running...");
 });
