@@ -1,0 +1,27 @@
+version: '3.3'
+services: 
+    api:
+        stdin_open: true
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./server
+        volumes: 
+            - /app/node_modules
+            - ./server:/app
+        environment: 
+            - API_PORT=3000
+            - ME_CONFIG_MONGODB_PORT=27017
+            - MONGO_INITDB_DATABASE=vuttr
+            - SECRET=13268326873269yqdeuikdshkdsnmcxnlnasdasq
+            - HOST=mongo
+        depends_on: 
+            - mongo
+        ports:
+            - '3000:3000'    
+    mongo:
+        image: mongo
+        environment:
+            - ME_CONFIG_MONGODB_PORT=27017
+            - MONGO_INITDB_DATABASE=vuttr
+        ports:
+            - '27017:27017'
