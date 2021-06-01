@@ -82,5 +82,34 @@ describe("Tool suite .",()=>{
 				fail(error);
 			});
 	});
+
+	test("Should get auth token, create a new tool and then get tools by passing a string array of tags.",()=>{
+		return request.post("/auth")
+			.send({email:mainUser.email,password:mainUser.password})
+			.then(res=>{
+				var token = res.body.token;
+				expect(res.statusCode).toEqual(200);
+				return request.post("/tool")
+					.set({"Authorization": token})
+					.send(mainTool)
+					.then(res=>{
+						expect(res.statusCode).toEqual(201);
+						return request.get("/tool")
+							.set({"Authorization": token})
+							.query({tags:mainTool.tags})
+							.then(res=>{
+								expect(res.statusCode).toEqual(200);
+							})
+							.catch(error=>{
+								fail(error);
+							});
+					})
+					.catch(error=>{
+						fail(error);
+					});
+			}).catch(error=>{
+				fail(error);
+			});
+	});
 });
 
