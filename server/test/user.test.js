@@ -34,5 +34,20 @@ describe("User registers suites",()=>{
 			});
 	});
 	
+    test("Should prevent empty data entry by user .",()=>{
+		let user = {
+			name:"",
+			email:"",
+			password:""
+		};
+		return request.post("/user")
+			.send(user)
+			.then(res=>{
+				expect(res.statusCode).toEqual(400);
+			})
+			.catch(error=>{
+				fail(error);
+			});
+	});
 });
 
