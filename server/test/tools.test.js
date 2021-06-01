@@ -27,28 +27,28 @@ const mainTool = {
     tags:[`${Date.now()}`,`${Date.now()}`,`${Date.now()}`,`${Date.now()}`]
 };
 beforeAll(()=>{
-    request.post("/user")
+    return request.post("/user")
         .send(mainUser);
 });
 
 afterAll(()=>{
-    request.delete(`/user/${mainUser.email}`);
+    return request.delete(`/user/${mainUser.email}`);
 });
 
 describe("Tool suite .",()=>{
 	
 	test("Should get auth, register a new tool and then delete it.", ()=>{
-		request.post("/auth")
+		return request.post("/auth")
 			.send({email:mainUser.email,password:mainUser.password})
 			.then(res=>{
 				var token = res.body.token;
 				expect(res.statusCode).toEqual(200);
-				request.post("/tool")
+				return request.post("/tool")
 					.set({"authorization": token})
 					.send(mainTool)
 					.then(res=>{
 						expect(res.status).toEqual(201);
-						request.delete(`/tool/${res.body.id}`)
+						return request.delete(`/tool/${res.body.id}`)
 							.set({"authorization": token})
 							.then(res=>{
 								expect(res.statusCode).toEqual(204);
