@@ -49,5 +49,32 @@ describe("User registers suites",()=>{
 				fail(error);
 			});
 	});
+
+    test("Should prevent a registration of an email already registered .",()=>{
+		let time = Date.now();
+		let email = `${time}@gmail.com`;
+		let user = {
+			name:"benjamim",
+			email:email,
+			password:`${Date.now()}`
+		};
+		return request.post("/user")
+			.send(user)
+			.then(res=>{
+				expect(res.statusCode).toEqual(201);
+				expect(res.body.email).toEqual(email);
+				return request.post("/user")
+					.send(user)
+					.then(res=>{
+						expect(res.statusCode).toEqual(400);
+					})
+					.catch(error=>{
+						fail(error);
+					});
+			})
+			.catch(error=>{
+				fail(error);
+			});
+	});
 });
 
