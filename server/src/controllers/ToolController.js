@@ -88,5 +88,32 @@ class ToolController{
 			return res.status(401);
 		}
 	}
+
+    async getByTag(req, res) {
+		if (!req.query.tags) return res.status(400);
+		let tags = req.query.tags;
+		if (!req.headers["authorization"]) return res.status(401);
+		let token = req.headers["authorization"];
+		if (token != undefined) {
+			let bearer = token.split(" ");
+			let tk = bearer[1];
+			let decoded = jwt.verify(tk, secret);
+			let result = await Tool.find({ "userid": decoded.id, "tags": tags });
+			let data = [];
+			result.forEach(item => {
+				let tool = {
+					id: item._id,
+					title: item.title,
+					link: item.link,
+					description: item.description,
+					tags: item.tags
+				};
+				data.push(tool);
+			});
+			return res.json(data);
+		} else {
+			return res.status(401);
+		}
+	}
 }
 module.exports = new ToolController();
