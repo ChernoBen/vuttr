@@ -5,4 +5,6 @@ services:
 script:
   - docker-compose -f docker-compose-test.yml -p tests run --rm api npm test 
 after_success:
-   - deactivate
+  - docker build -t mfukushima/vuttr-container-server-project ./server
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push mfukushima/vuttr-container-server-project
