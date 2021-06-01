@@ -5,7 +5,7 @@
 
  - [Intro](#intro)
  - [Routes](#routes)
- - [Initizalizing](#init)
+ - [Initializing](#init)
  - [Tests](#tests)
  
 
