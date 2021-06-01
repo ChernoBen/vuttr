@@ -17,7 +17,7 @@ class UserController {
 		let hash = await bcrypt.hash(password, salt);
 		try {
 			const user = await User.findOne({ "email": email });
-			if (user != undefined) { return res.status(400).json({ error: "Email ja cadastrado" }); }
+			if (user != undefined) { return res.status(400).json({ error: "Email already registered" }); }
 			const newUser = new User({ name, email, password: hash });
 			await newUser.save();
 			res.status(201).json({ email:email });
@@ -29,9 +29,9 @@ class UserController {
     async auth(req, res) {
 		const { email, password } = req.body;
 		const user = await User.findOne({ "email": email });
-		if (user == undefined) return res.status(403).json({ errors: { email: "Email não cadastrado" } });
+		if (user == undefined) return res.status(403).json({ errors: { email: "Email does not exist" } });
 		let isPasswordValid = await bcrypt.compare(password, user.password);
-		if (!isPasswordValid) return res.status(403).json({ errors: { password: "Senha incorreta" } });
+		if (!isPasswordValid) return res.status(403).json({ errors: { password: "Wrong password" } });
 		jwt.sign({ email: email, name: user.name, id: user._id }, JWTSecret, { expiresIn: "6h" }, (error, token) => {
 			if (error) {
 				res.sendStatus(500);

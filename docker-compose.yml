@@ -3,7 +3,7 @@ services:
     api:
         stdin_open: true
         build:
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
             context: ./server
         volumes: 
             - /app/node_modules
