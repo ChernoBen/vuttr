@@ -60,7 +60,7 @@ Even the data base being non-realational i decided to face it as a scenario wher
 >"docker-compose -f docker-compose-test.yml -p tests run --rm api npm test" .
 **About the tests:**
  - *There are two suite of tests*
- - `**First suite**: User suite**`
+ - `**First one**: User suite**`
     - `should register a new user with success`
         >`routes:` `POST/user`
         >`expected:` `status 201` / `email within response.body`
@@ -79,7 +79,7 @@ Even the data base being non-realational i decided to face it as a scenario wher
     - `should prevent entering of an incorrect password`
         >`routes:` `POST/auth`
         >`expected:` `status 403 `
- - `**Second suite**: Tool suite**`
+ - `**Second one**: Tool suite**`
     - `should get auth, register a new tool and then delete it`
         >`routes:` `POST/auth`,`POST/tool`,`DELETE/tool/{id}`
         >`expected:` `status 200`,`status 201`,`status 204`
