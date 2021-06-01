@@ -64,5 +64,23 @@ describe("Tool suite .",()=>{
 				fail(error);
 			});
 	});
+
+	test("Should get auth and then list all tools.",()=>{
+		return request.post("/auth")
+			.send({email:mainUser.email,password:mainUser.password})
+			.then(res=>{
+				expect(res.statusCode).toEqual(200);
+				return request.get("/tools")
+					.set({"Authorization": res.body.token})
+					.then(res=>{
+						expect(res.statusCode).toEqual(200);
+					})
+					.catch(error=>{
+						fail(error);
+					});
+			}).catch(error=>{
+				fail(error);
+			});
+	});
 });
 
