@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "swagger-autogen":"node ./swagger.js",
     "dev": "nodemon ./server",
     "test": "jest --force-exit",
     "start": "node ./server"
