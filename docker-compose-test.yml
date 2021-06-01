@@ -12,7 +12,7 @@ services:
             - API_PORT=3000
             - ME_CONFIG_MONGODB_PORT=27017
             - MONGO_INITDB_DATABASE=vuttr
-            - SECRET=13268326873269yqdeuikdshkdsnmcxnlnasdasq
+            - SECRET=PasteYourSecretEnvVarHere
             - HOST=mongo
         depends_on: 
             - mongo
