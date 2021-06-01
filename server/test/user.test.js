@@ -13,6 +13,20 @@ const request = supertest(app.listen(3002,()=>{
 	console.log("User tests...");
 }));
 
+const mainUser = {
+	name:`${Date.now()}`,
+	email:`${Date.now()}@hotmail.com`,
+	password:`${Date.now()}`
+};
+
+beforeAll(()=>{
+	return request.post("/user")
+		.send(mainUser);
+});
+
+afterAll(()=>{
+	request.delete(`/user/${mainUser.email}`);
+});
 
 describe("User registers suites",()=>{
 
@@ -78,3 +92,38 @@ describe("User registers suites",()=>{
 	});
 });
 
+describe("User authentication",()=>{
+	test("Should return a auth token .",()=>{
+		return request.post("/auth")
+			.send({email:mainUser.email,password:mainUser.password})
+			.then(res=>{
+				expect(res.statusCode).toEqual(200);
+				expect(res.body.token).toBeDefined();
+			})
+			.catch(error=>{
+				fail(error);
+			});
+	});
+
+    test("Should prevent an unregistered person to get an auth token.",()=>{
+		return request.post("/auth")
+			.send({email:"false@email.com",password:mainUser.password})
+			.then(res=>{
+				expect(res.statusCode).toEqual(403);
+			})
+			.catch(error=>{
+				fail(error);
+			});
+	});
+
+	test("Should prevent from entering an incorrect password.",()=>{
+		return request.post("/auth")
+			.send({email:mainUser.email,password:"wrongPassword"})
+			.then(res=>{
+				expect(res.statusCode).toEqual(403);
+			})
+			.catch(error=>{
+				fail(error);
+			});
+	});
+});
