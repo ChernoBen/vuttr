@@ -8,5 +8,7 @@ router.use((req, res, next)=> {
 });
 
 router.post("/user",UserController.create);
+router.post("/auth",UserController.auth);
+router.delete("/user:email",UserController.delete);
 
 module.exports = router;
