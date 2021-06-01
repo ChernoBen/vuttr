@@ -8,7 +8,7 @@ router.use((req, res, next)=> {
 	next();
 });
 
-router.delete("/tool",ToolController.delete);
+router.delete("/tool/:id",ToolController.delete);
 router.post("/tool",ToolController.create);
 router.post("/user",UserController.create);
 router.post("/auth",UserController.auth);
