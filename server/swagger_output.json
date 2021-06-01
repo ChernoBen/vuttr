@@ -1,0 +1,275 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "VUTTR",
+      "description": "Very Useful Tools to Remember."
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "tags": [],
+    "schemes": [
+      "http",
+      "https"
+    ],
+    "securityDefinitions": {
+      "Bearer": {
+        "name": "Authorization",
+        "in": "headers",
+        "type": "apiKey",
+        "description": "authorization token"
+      }
+    },
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/tool": {
+        "get": {
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "tags": ["Tools"],
+          "description": "Get single or multiple tools by passing tag names as a param",
+          "parameters": [
+            {
+              "name": "tags",
+              "in": "query",
+              "type": "string"
+            },
+            {
+              "name": "tags\r",
+              "in": "query",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "post": {
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "tags": ["Tools"],
+          "description": " Create a new tool by passing title, link, description and a string array of tags inside Body . ",
+          "parameters": [
+            {
+              "name": "obj",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "any"
+                  },
+                  "link": {
+                    "example": "any"
+                  },
+                  "description": {
+                    "example": "any"
+                  },
+                  "tags": {
+                    "example": ["tag1"]
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201":{
+              "description":"Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/tools": {
+        "get": {
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "tags": ["Tools"],
+          "description": "Get every tools registered and linked to the authenticated user .",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Bad Request"
+            }
+          }
+        }
+      },
+      "/tool/{id}": {
+        "delete": {
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "tags": ["Tools"],
+          "description": "Delete a tool by passing its id as a param .",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "No Content"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/user": {
+        "post": {
+          "tags":["Users"],
+          "description": "Register a new user by passing name, email and password inside Body",
+          "parameters": [
+            {
+              "name": "obj",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "any"
+                  },
+                  "email": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/auth": {
+        "post": {
+          "tags": ["Users"],
+          "description": "Get access token by passing email and password inside Body .",
+          "parameters": [
+            {
+              "name": "obj",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/user/{email}": {
+        "delete": {
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "tags": ["Users"],
+          "description": "Delete your own user account by passing the account email as a param .",
+          "parameters": [
+            {
+              "name": "email",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "No Content"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {}
+  }
