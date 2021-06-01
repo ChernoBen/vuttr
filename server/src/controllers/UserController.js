@@ -26,5 +26,35 @@ class UserController {
 		}
 	}
 
+    async auth(req, res) {
+		const { email, password } = req.body;
+		const user = await User.findOne({ "email": email });
+		if (user == undefined) return res.status(403).json({ errors: { email: "Email não cadastrado" } });
+		let isPasswordValid = await bcrypt.compare(password, user.password);
+		if (!isPasswordValid) return res.status(403).json({ errors: { password: "Senha incorreta" } });
+		jwt.sign({ email: email, name: user.name, id: user._id }, JWTSecret, { expiresIn: "6h" }, (error, token) => {
+			if (error) {
+				res.sendStatus(500);
+			} else {
+				return res.json({ token: `Bearer ${token}` });
+			}
+		});
+	}
+
+    async delete(req, res) {
+		if(!req.headers["authorization"])return res.status(401);
+		if(!req.params.email)return res.status(400);
+		let token = req.headers["authorization"];
+		token = token.split(" ");
+		try{
+			let decoded = jwt.verify(token[1],JWTSecret);
+			let result = await User.findOne({"_id":decoded.id});
+			if(!result)return res.status(400);
+		}catch(error){
+			return res.status(500);
+		}
+		await User.deleteOne({"email":req.params.email});
+		return res.sendStatus(204);
+	}
 }
 module.exports = new UserController();
